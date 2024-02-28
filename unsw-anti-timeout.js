@@ -7,6 +7,7 @@
 // @version     1.0
 // @author      PulyusTech
 // @description Make UNSW sites automatically log in when session is expired :)
+// @icon        https://my.unsw.edu.au/images-channel/SADP/moodle.png
 // ==/UserScript==
 if (window.location.href == "https://moodle.telt.unsw.edu.au/login/index.php")
   window.location.href = "https://moodle.telt.unsw.edu.au/auth/oidc";

@@ -6,6 +6,7 @@
 // @version     1.0
 // @author      PulyusTech
 // @description Show the timetable for today
+// @icon        https://moodle.telt.unsw.edu.au/pluginfile.php/1/theme_remui/faviconurl/1708606952/unsw_shield.svg
 // ==/UserScript==
 (async () => {
   let d = new Date();
