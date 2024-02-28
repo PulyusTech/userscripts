@@ -3,7 +3,7 @@
 // @namespace   https://pulyustech.github.io/userscripts
 // @match       https://moodle.telt.unsw.edu.au/*
 // @match       https://my.unsw.edu.au/*
-// @grant       none
+// @grant       unsafeWindow
 // @version     1.0
 // @author      PulyusTech
 // @description Make UNSW sites automatically log in when session is expired :)
@@ -12,6 +12,9 @@
 if (window.location.href == "https://moodle.telt.unsw.edu.au/login/index.php")
   window.location.href = "https://moodle.telt.unsw.edu.au/auth/oidc";
 if (window.location.href.includes("moodle.telt.unsw.edu.au")) {
+  setTimeout(() => {
+    unsafeWindow.M.core.sessionextend.sessionTimeout.idletimer.cancel();
+  }, 5000);
   if (
     window.location.href == "https://moodle.telt.unsw.edu.au/my/" ||
     window.location.href == "https://moodle.telt.unsw.edu.au/my/courses.php"
@@ -25,9 +28,6 @@ if (window.location.href.includes("moodle.telt.unsw.edu.au")) {
     "afterbegin",
     "<div class='GF32X2zYzF'></div>"
   );
-  setInterval(() => {
-    document.querySelector(".GF32X2zYzF").click();
-  }, 10000);
   if (window.location.href != "https://moodle.telt.unsw.edu.au/auth/oidc")
     for (let item of document.querySelectorAll(".nav-link")) {
       if (item.innerHTML.includes("Log in")) {
