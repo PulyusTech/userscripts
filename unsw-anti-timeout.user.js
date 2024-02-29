@@ -4,7 +4,8 @@
 // @match       https://moodle.telt.unsw.edu.au/*
 // @match       https://my.unsw.edu.au/*
 // @grant       unsafeWindow
-// @version     1.0
+// @grant       GM_openInTab
+// @version     1.2
 // @author      PulyusTech
 // @description Make UNSW sites automatically log in when session is expired :)
 // @icon        https://my.unsw.edu.au/images-channel/SADP/moodle.png
@@ -31,7 +32,7 @@ if (window.location.href.includes("moodle.telt.unsw.edu.au")) {
   if (window.location.href != "https://moodle.telt.unsw.edu.au/auth/oidc")
     for (let item of document.querySelectorAll(".nav-link")) {
       if (item.innerHTML.includes("Log in")) {
-        window.open("https://moodle.telt.unsw.edu.au/auth/oidc");
+        GM_openInTab("https://moodle.telt.unsw.edu.au/auth/oidc", true);
         break;
       }
     }
@@ -47,8 +48,9 @@ if (window.location.href.includes("my.unsw.edu.au")) {
   if (
     document.querySelector("h1").innerHTML == "HTTP Status 401 – Unauthorized"
   ) {
-    window.open(
-      "https://sso.unsw.edu.au/cas/clientredirect?client_name=azuread&service=https%3A%2F%2Fmy.unsw.edu.au%2Fportal%2Fportal%2Fhome.xml%3Fpopup%3Dtrue"
+    GM_openInTab(
+      "https://sso.unsw.edu.au/cas/clientredirect?client_name=azuread&service=https%3A%2F%2Fmy.unsw.edu.au%2Fportal%2Fportal%2Fhome.xml%3Fpopup%3Dtrue",
+      true
     );
   }
   if (
