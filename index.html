@@ -11,14 +11,21 @@
       body {
         padding: 1vw;
         font-family: Arial;
-        color: #ffffff;
+        color: white;
         background-color: rgb(35, 7, 61);
       }
+      h1 {
+        font-size: 3.2vw;
+      }
       h2 {
+        font-size: 1.8vw;
         margin-top: 3vh;
       }
       div {
-        margin-top: 3vh;
+        margin: 5vh 0 2vh 0;
+      }
+      p {
+        font-size: 1.2vw;
       }
       a {
         padding: 0.5vh;
@@ -26,35 +33,61 @@
         border-color: rgb(118, 0, 176);
         border-radius: 0.2vw;
         border-width: 0.4vh;
-        background-color: #11111180;
+        background-color: rgb(118, 0, 176, 0.1);
         text-decoration: none;
-        color: #ffffff;
+        color: white;
+        font-size: 1.4vw;
         font-weight: bold;
+      }
+      a:hover {
+        background-color: rgb(118, 0, 176, 0.5);
       }
     </style>
   </head>
   <body>
     <h1>PT Userscripts</h1>
+    <br />
+    <p>Automatic scripts that can be installed to make life easier.</p>
     <h2>1. Install a userscript manager:</h2>
     <div>
-      <a href="https://www.tampermonkey.net/">Get Tampermonkey</a>
+      <a href="https://www.tampermonkey.net/" target="_blank"
+        >Get Tampermonkey</a
+      >
     </div>
     <h2>2. Install a userscript:</h2>
     <div>
       <a href="ptyt-adskipper.user.js">YT Ad Skipper</a>
     </div>
+    <p>
+      Skips youtube video ads and hides ad banners. Bypasses youtube adblock
+      detection because the script only hides the ads from view instead of
+      removing them.
+    </p>
     <div>
       <a href="unsw-anti-timeout.user.js">UNSW Anti Timeout</a>
     </div>
+    <p>
+      Automatically logins in the background when Moodle or MyUNSW gets timed
+      out. Is fully automatic if your device remembers your school account.
+    </p>
     <div>
       <a href="unsw-timetable-today.user.js">UNSW Timetable Today</a>
     </div>
+    <p>
+      Makes the site show the timetable of the current week instead of the
+      first.
+    </p>
     <div>
       <a href="user-friendly-teams.user.js">User Friendly Teams</a>
     </div>
+    <p>
+      Gets rid of the "use teams app" prompt and enables enlarging of the
+      section content by clicking the left sidebar.
+    </p>
     <div>
       <a href="thesaurus-word-replacer.user.js">Thesaurus Word Replacer</a>
     </div>
+    <p>Copy a word twice to replace it with synonyms from thesaurus.com.</p>
   </body>
   <script></script>
 </html>
