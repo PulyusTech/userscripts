@@ -3,10 +3,11 @@
 // @namespace   https://pulyustech.github.io/userscripts
 // @match       https://my.unsw.edu.au/active/studentTimetable/timetable.xml*
 // @grant       none
-// @version     1.0
+// @version     1.1
 // @author      PulyusTech
 // @description Show the timetable for today
 // @icon        https://moodle.telt.unsw.edu.au/pluginfile.php/1/theme_remui/faviconurl/1708606952/unsw_shield.svg
+// @run-at      document-end
 // ==/UserScript==
 (async () => {
   let d = new Date();

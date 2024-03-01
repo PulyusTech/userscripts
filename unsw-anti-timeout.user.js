@@ -4,61 +4,63 @@
 // @match       https://moodle.telt.unsw.edu.au/*
 // @match       https://my.unsw.edu.au/*
 // @grant       unsafeWindow
-// @grant       GM_openInTab
-// @version     1.2
+// @grant       GM_setValue
+// @grant       GM_getValue
+// @version     2.0
 // @author      PulyusTech
 // @description Make UNSW sites automatically log in when session is expired :)
 // @icon        https://my.unsw.edu.au/images-channel/SADP/moodle.png
+// @run-at      document-end
 // ==/UserScript==
-if (window.location.href == "https://moodle.telt.unsw.edu.au/login/index.php")
-  window.location.href = "https://moodle.telt.unsw.edu.au/auth/oidc";
-if (window.location.href.includes("moodle.telt.unsw.edu.au")) {
-  setTimeout(() => {
-    unsafeWindow.M.core.sessionextend.sessionTimeout.idletimer.cancel();
-  }, 5000);
+document.head.insertAdjacentHTML(
+  "beforeend",
+  "<style id='ptinvis'>body{display:none;}</style>"
+);
+(async () => {
   if (
-    window.location.href == "https://moodle.telt.unsw.edu.au/my/" ||
-    window.location.href == "https://moodle.telt.unsw.edu.au/my/courses.php"
+    window.location.href == "https://moodle.telt.unsw.edu.au/login/index.php"
   ) {
-    try {
-      window.opener.location.reload(1);
-      window.close();
-    } catch (e) {}
-  }
-  document.body.insertAdjacentHTML(
-    "afterbegin",
-    "<div class='GF32X2zYzF'></div>"
-  );
-  if (window.location.href != "https://moodle.telt.unsw.edu.au/auth/oidc")
-    for (let item of document.querySelectorAll(".nav-link")) {
-      if (item.innerHTML.includes("Log in")) {
-        GM_openInTab("https://moodle.telt.unsw.edu.au/auth/oidc", true);
-        break;
+    window.location.href = "https://moodle.telt.unsw.edu.au/auth/oidc";
+  } else if (window.location.href.includes("moodle.telt.unsw.edu.au")) {
+    setTimeout(() => {
+      unsafeWindow.M.core.sessionextend.sessionTimeout.idletimer.cancel();
+    }, 5000);
+    if (window.location.href != "https://moodle.telt.unsw.edu.au/auth/oidc") {
+      let m = await GM_getValue("moodle");
+      if (!m) {
+        for (let item of document.querySelectorAll(".nav-link")) {
+          if (item.innerHTML.includes("Log in")) {
+            await GM_setValue("moodle", window.location.href);
+            window.location.href = "https://moodle.telt.unsw.edu.au/my/";
+            break;
+          }
+        }
+        document.getElementById("ptinvis").remove();
+      } else {
+        await GM_setValue("moodle", "");
+        window.location.href = m;
       }
     }
-}
-if (window.location.href.includes("my.unsw.edu.au")) {
-  if (window.location.href.includes("popup=true")) {
-    try {
-      window.opener.location.href =
-        window.opener.location.href.split("?ticket=")[0];
-    } catch (e) {}
-    window.close();
   }
-  if (
-    document.querySelector("h1").innerHTML == "HTTP Status 401 – Unauthorized"
-  ) {
-    GM_openInTab(
-      "https://sso.unsw.edu.au/cas/clientredirect?client_name=azuread&service=https%3A%2F%2Fmy.unsw.edu.au%2Fportal%2Fportal%2Fhome.xml%3Fpopup%3Dtrue",
-      true
-    );
+  if (window.location.href.includes("my.unsw.edu.au")) {
+    if (
+      document.querySelector("h1") &&
+      document.querySelector("h1").innerHTML == "HTTP Status 401 – Unauthorized"
+    ) {
+      window.location.href = `https://sso.unsw.edu.au/cas/clientredirect?client_name=azuread&service=${encodeURIComponent(
+        window.location.href.split("?ticket=")[0]
+      )}`;
+    } else if (
+      window.location.href.includes(
+        "https://sso.unsw.edu.au/cas/login?service="
+      )
+    ) {
+      window.location.href = window.location.href.replace(
+        "login?",
+        "clientredirect?client_name=azuread&"
+      );
+    } else {
+      document.getElementById("ptinvis").remove();
+    }
   }
-  if (
-    window.location.href.includes("https://sso.unsw.edu.au/cas/login?service=")
-  ) {
-    window.location.href = window.location.href.replace(
-      "login?",
-      "clientredirect?client_name=azuread&"
-    );
-  }
-}
+})();
