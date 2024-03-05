@@ -3,10 +3,9 @@
 // @namespace   https://pulyustech.github.io/userscripts
 // @match       https://moodle.telt.unsw.edu.au/*
 // @match       https://my.unsw.edu.au/*
-// @grant       unsafeWindow
 // @grant       GM_setValue
 // @grant       GM_getValue
-// @version     2.0
+// @version     2.0.1
 // @author      PulyusTech
 // @description Make UNSW sites automatically log in when session is expired :)
 // @icon        https://my.unsw.edu.au/images-channel/SADP/moodle.png
@@ -21,25 +20,24 @@ document.head.insertAdjacentHTML(
     window.location.href == "https://moodle.telt.unsw.edu.au/login/index.php"
   ) {
     window.location.href = "https://moodle.telt.unsw.edu.au/auth/oidc";
-  } else if (window.location.href.includes("moodle.telt.unsw.edu.au")) {
-    setTimeout(() => {
-      unsafeWindow.M.core.sessionextend.sessionTimeout.idletimer.cancel();
-    }, 5000);
-    if (window.location.href != "https://moodle.telt.unsw.edu.au/auth/oidc") {
-      let m = await GM_getValue("moodle");
-      if (!m) {
-        for (let item of document.querySelectorAll(".nav-link")) {
-          if (item.innerHTML.includes("Log in")) {
-            await GM_setValue("moodle", window.location.href);
-            window.location.href = "https://moodle.telt.unsw.edu.au/my/";
-            break;
-          }
+  } else if (
+    window.location.href.includes("moodle.telt.unsw.edu.au") &&
+    window.location.href != "https://moodle.telt.unsw.edu.au/auth/oidc"
+  ) {
+    //setinterval
+    let m = await GM_getValue("moodle");
+    if (!m) {
+      for (let item of document.querySelectorAll(".nav-link")) {
+        if (item.innerHTML.includes("Log in")) {
+          await GM_setValue("moodle", window.location.href);
+          window.location.href = "https://moodle.telt.unsw.edu.au/my/";
+          break;
         }
-        document.getElementById("ptinvis").remove();
-      } else {
-        await GM_setValue("moodle", "");
-        window.location.href = m;
       }
+      document.getElementById("ptinvis").remove();
+    } else {
+      await GM_setValue("moodle", "");
+      window.location.href = m;
     }
   }
   if (window.location.href.includes("my.unsw.edu.au")) {
