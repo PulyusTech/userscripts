@@ -89,5 +89,21 @@
     </div>
     <p>Copy a word twice to replace it with synonyms from thesaurus.com.</p>
   </body>
-  <script></script>
+  <script>
+    const params = new URL(document.location).searchParams;
+    const script = params.get("s");
+    if (script) {
+      for (let item of document.querySelectorAll("div"))
+        item.style.display = "none";
+      for (let item of document.querySelectorAll("p"))
+        item.style.display = "none";
+      document.querySelector("div").style.display = "block";
+      document.querySelector("p").style.display = "block";
+      let arrScripts = script.split("");
+      for (let item of arrScripts) {
+        document.querySelectorAll("div")[item].style.display = "block";
+        document.querySelectorAll("p")[item].style.display = "block";
+      }
+    }
+  </script>
 </html>
