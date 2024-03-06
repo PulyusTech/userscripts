@@ -5,7 +5,7 @@
 // @match       https://my.unsw.edu.au/*
 // @grant       GM_setValue
 // @grant       GM_getValue
-// @version     2.0.1
+// @version     2.1.0
 // @author      PulyusTech
 // @description Make UNSW sites automatically log in when session is expired :)
 // @icon        https://my.unsw.edu.au/images-channel/SADP/moodle.png
@@ -24,7 +24,14 @@ document.head.insertAdjacentHTML(
     window.location.href.includes("moodle.telt.unsw.edu.au") &&
     window.location.href != "https://moodle.telt.unsw.edu.au/auth/oidc"
   ) {
-    //setinterval
+    setInterval(() => {
+      for (let el of document.querySelectorAll("div")) {
+        if (el.innerHTML == "Session Expiry Alert") {
+          el.parentElement.querySelector("button").click();
+          break;
+        }
+      }
+    }, 10);
     let m = await GM_getValue("moodle");
     if (!m) {
       for (let item of document.querySelectorAll(".nav-link")) {
