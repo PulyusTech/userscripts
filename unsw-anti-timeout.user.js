@@ -5,7 +5,7 @@
 // @match       https://my.unsw.edu.au/*
 // @grant       GM_setValue
 // @grant       GM_getValue
-// @version     2.1.0
+// @version     2.1.1
 // @author      PulyusTech
 // @description Make UNSW sites automatically log in when session is expired :)
 // @icon        https://my.unsw.edu.au/images-channel/SADP/moodle.png
@@ -26,7 +26,10 @@ document.head.insertAdjacentHTML(
   ) {
     setInterval(() => {
       for (let el of document.querySelectorAll("div")) {
-        if (el.innerHTML == "Session Expiry Alert") {
+        if (
+          el.innerHTML == "Session Expiry Alert" ||
+          el.innerHTML == "Session Extended"
+        ) {
           el.parentElement.querySelector("button").click();
           break;
         }
