@@ -3,9 +3,10 @@
 // @namespace   https://pulyustech.github.io/userscripts
 // @match       https://moodle.telt.unsw.edu.au/*
 // @match       https://my.unsw.edu.au/*
+// @match       https://sso.unsw.edu.au/*
 // @grant       GM_setValue
 // @grant       GM_getValue
-// @version     2.1.2
+// @version     2.1.3
 // @author      PulyusTech
 // @description Make UNSW sites automatically log in when session is expired :)
 // @icon        https://my.unsw.edu.au/images-channel/SADP/moodle.png
