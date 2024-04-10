@@ -6,7 +6,7 @@
 // @match       https://sso.unsw.edu.au/*
 // @grant       GM_setValue
 // @grant       GM_getValue
-// @version     2.1.5
+// @version     2.1.6
 // @author      PulyusTech
 // @description Make UNSW sites automatically log in when session is expired :)
 // @icon        https://my.unsw.edu.au/images-channel/SADP/moodle.png
@@ -32,6 +32,12 @@ document.head.insertAdjacentHTML(
           el.innerHTML == "Session Extended" ||
           el.innerHTML == "Session Expired"
         ) {
+          el.parentElement.querySelector("button").click();
+          break;
+        }
+      }
+      for (let el of document.querySelectorAll("h5")) {
+        if (el.innerHTML == "No recent activity") {
           el.parentElement.querySelector("button").click();
           break;
         }
