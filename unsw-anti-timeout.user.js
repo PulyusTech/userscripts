@@ -6,7 +6,7 @@
 // @match       https://sso.unsw.edu.au/*
 // @grant       GM_setValue
 // @grant       GM_getValue
-// @version     2.1.8
+// @version     2.1.9
 // @author      PulyusTech
 // @description Make UNSW sites automatically log in when session is expired :)
 // @icon        https://my.unsw.edu.au/images-channel/SADP/moodle.png
@@ -33,7 +33,7 @@ document.head.insertAdjacentHTML(
         blurtime = d.getTime();
       } else {
         focustime = d.getTime();
-        if (focustime - blurtime > 60000) location.reload();
+        if (focustime - blurtime > 3600000) location.reload();
       }
     });
     setInterval(() => {
