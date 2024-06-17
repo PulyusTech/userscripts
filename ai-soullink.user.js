@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        AI Soullink
-// @namespace   AI Soullink
+// @namespace   https://pulyustech.github.io/userscripts
 // @match       https://moodle.telt.unsw.edu.au/*
 // @match       https://chatgpt.com/*
 // @grant       GM_setValue
