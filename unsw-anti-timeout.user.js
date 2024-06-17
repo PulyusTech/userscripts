@@ -4,9 +4,10 @@
 // @match       https://moodle.telt.unsw.edu.au/*
 // @match       https://my.unsw.edu.au/*
 // @match       https://sso.unsw.edu.au/*
+// @match       https://unsw.mobius.cloud/login
 // @grant       GM_setValue
 // @grant       GM_getValue
-// @version     2.1.9
+// @version     2.2
 // @author      PulyusTech
 // @description Make UNSW sites automatically log in when session is expired :)
 // @icon        https://my.unsw.edu.au/images-channel/SADP/moodle.png
@@ -17,7 +18,9 @@ document.head.insertAdjacentHTML(
   "<style id='ptinvis'>body{display:none;}</style>"
 );
 (async () => {
-  if (
+  if (window.location.href == "https://unsw.mobius.cloud/login") {
+    window.location.href = "https://unsw.mobius.cloud/rest/saml/init-login";
+  } else if (
     window.location.href == "https://moodle.telt.unsw.edu.au/login/index.php"
   ) {
     window.location.href = "https://moodle.telt.unsw.edu.au/auth/oidc";
