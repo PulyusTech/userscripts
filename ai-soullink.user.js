@@ -5,7 +5,7 @@
 // @match       https://chatgpt.com/*
 // @grant       GM_setValue
 // @grant       GM_getValue
-// @version     1.0
+// @version     1.1
 // @author      PulyusTech
 // @description Remotely send requests to AI from another tab
 // ==/UserScript==
@@ -81,8 +81,11 @@ document.getElementByAttVal = function (attribute, value) {
         let q = await GM_getValue("q");
         document.getElementById("prompt-textarea").value = q;
         document
-          .getElementByAttVal("data-testid", "fruitjuice-send-button")
-          .click();
+          .getElementByAttVal(
+            "d",
+            "M15.192 8.906a1.143 1.143 0 0 1 1.616 0l5.143 5.143a1.143 1.143 0 0 1-1.616 1.616l-3.192-3.192v9.813a1.143 1.143 0 0 1-2.286 0v-9.813l-3.192 3.192a1.143 1.143 0 1 1-1.616-1.616z"
+          )
+          .parentElement.parentElement.click();
         let l2 = async () => {
           let res = document.getElementsByClassName("markdown");
           let a = res[res.length - 1].innerHTML.replace(/<p>|<\/p>/g, "\n");
