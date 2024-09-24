@@ -1,11 +1,11 @@
 // ==UserScript==
 // @name        AI Soullink
-// @namespace   https://pulyustech.github.io/userscripts
+// @namespace   AI Soullink
 // @match       https://moodle.telt.unsw.edu.au/*
 // @match       https://chatgpt.com/*
 // @grant       GM_setValue
 // @grant       GM_getValue
-// @version     1.1
+// @version     1.2
 // @author      PulyusTech
 // @description Remotely send requests to AI from another tab
 // ==/UserScript==
@@ -14,6 +14,7 @@
 //You can now highlight text in Moodle you aren't supposed to, and highlights are now invisible
 //Open ChatGPT and type anything in the prompt to initiate
 //Press Shift to record highlighed text in Moodle
+//To skip a question, press shift without highlighting anything
 //Press Enter to ask ChatGPT the recorded text from Moodle
 //After ChatGPT responds, the Moodle quiz question multiple choices will be replaced with the answers
 
@@ -46,9 +47,9 @@ document.getElementByAttVal = function (attribute, value) {
           let t = window.getSelection().toString();
           if (t) {
             let prevQ = await GM_getValue("q");
-            await GM_setValue("q", prevQ + "\n\n" + t);
-            document.body.contentEditable = false;
+            await GM_setValue("q", prevQ + "    Question: " + t);
           }
+          document.body.contentEditable = false;
           break;
         case "Enter":
           await GM_setValue("answerNow", "answering");
@@ -58,6 +59,7 @@ document.getElementByAttVal = function (attribute, value) {
     };
     let l = async () => {
       let a = await GM_getValue("a");
+      console.log(a);
       let options = "";
       for (let el of a.split("\n")) {
         if (el != "") {
@@ -69,7 +71,7 @@ document.getElementByAttVal = function (attribute, value) {
         }
       }
       document.querySelector(".answer").innerHTML = options;
-      setTimeout(l, 1000); //interval to update moodle fake mc answers on creen
+      setTimeout(l, 1000);
     };
   } else if (window.location.href.includes("chatgpt")) {
     await GM_setValue("q", "");
@@ -79,23 +81,22 @@ document.getElementByAttVal = function (attribute, value) {
       let answerNow = await GM_getValue("answerNow");
       if (answerNow == "answering") {
         let q = await GM_getValue("q");
-        document.getElementById("prompt-textarea").value = q;
+        console.log(q);
         document
-          .getElementByAttVal(
-            "d",
-            "M15.192 8.906a1.143 1.143 0 0 1 1.616 0l5.143 5.143a1.143 1.143 0 0 1-1.616 1.616l-3.192-3.192v9.813a1.143 1.143 0 0 1-2.286 0v-9.813l-3.192 3.192a1.143 1.143 0 1 1-1.616-1.616z"
-          )
-          .parentElement.parentElement.click();
+          .getElementById("prompt-textarea")
+          .querySelector("p").innerHTML = q;
+        await new Promise((r) => setTimeout(r, 3000));
+        document.getElementByAttVal("data-testid", "send-button").click();
         let l2 = async () => {
           let res = document.getElementsByClassName("markdown");
           let a = res[res.length - 1].innerHTML.replace(/<p>|<\/p>/g, "\n");
           await GM_setValue("a", a);
           let answerNow2 = await GM_getValue("answerNow");
-          if (answerNow2 == "answering") setTimeout(l2, 500); //interval to update moodle fake mc answers
+          if (answerNow2 == "answering") setTimeout(l2, 1000);
         };
-        setTimeout(l2, 1000); //delay before checking response
+        setTimeout(l2, 1000);
       } else {
-        setTimeout(l, 1000); //interval to check if question is submitted
+        setTimeout(l, 1000);
       }
     };
     l();
